@@ -1,3 +1,4 @@
+from util import *
 
 h0 = 0x6a09e667
 h1 = 0xbb67ae85
@@ -39,5 +40,5 @@ def sha256(message):
     for i in range(len(w_list)):
         for j in range(16):
             w_list[i].append(chunk_list[i][j]*16**3+chunk_list[i][j]*16**2+chunk_list[i][j]*16+chunk_list[i][j])
-    print(w_list)
+    
     return message
