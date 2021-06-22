@@ -62,10 +62,12 @@ def compression_loop(words, k, w, i):
     g = words[6]
     h = words[7]
 
-    S1 = grandSigma1(e)
+    b = 32
+
+    S1 = grandSigma1(e, b)
     ch_out = ch(e, f, g)
     temp1 = (h + S1 + ch_out + k[i] + w[i]) % (2**32)
-    S0 = grandSigma0(a)
+    S0 = grandSigma0(a, b)
     maj_out = maj(a, b, c)
     temp2 = S0 + maj_out
 
