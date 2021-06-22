@@ -1,3 +1,43 @@
+def shr(x, n):
+    return x>>n
+
+def rotr(x, n):
+    return x>>n | x<< (8*len(x) - n)
+
+def ch(x, y, z):
+    return (x&y)^(~x&z)
+
+def maj(x, y, z):
+    return (x&y)^(x&z)^(y&z)
+
+#bits = 32 ou 64
+
+def grandSigma0(x, b):
+    if b==32:
+        return rotr(x, 2)^rotr(x, 13)^rotr(x, 22)
+    else:
+       return rotr(x, 28)^rotr(x, 34)^rotr(x, 39) 
+
+def grandSigma1(x, b):
+    if b==32:
+        return rotr(x, 6)^rotr(x, 11)^rotr(x, 25)
+    else:
+       return rotr(x, 14)^rotr(x, 18)^rotr(x, 41)
+
+def petitSigma0(x, b):
+    if b==32:
+        return rotr(x, 7)^rotr(x, 18)^shr(x, 3)
+    else:
+       return rotr(x, 1)^rotr(x, 8)^shr(x, 7)
+
+def petitSigma1(x, b):
+    if b==32:
+        return rotr(x, 17)^rotr(x, 19)^shr(x, 10)
+    else:
+       return rotr(x, 19)^rotr(x, 61)^shr(x, 6)
+
+
+
 h0 = 0x6a09e667
 h1 = 0xbb67ae85
 h2 = 0x3c6ef372
