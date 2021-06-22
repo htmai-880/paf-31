@@ -48,11 +48,7 @@ def sha256(message):
             s0 = petitSigma0(w[j-15], 32)
             s1 = petitSigma1(w[j-2], 32)
             w[j] = (w[j-16] + s0 + w[j-7] + s1)%(2**32)
-        print(w)
         process(hv, K, w)
-
-    print(hv)
-    print('/n')
     
     res = 0
 
