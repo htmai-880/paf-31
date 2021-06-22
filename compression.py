@@ -37,7 +37,7 @@ def process(hv, k, w):
     h = hv[7]
 
     words = [a, b, c, d, e, f, g, h]
-    for i in range (64):
+    for i in range(64):
         compression_loop(words, k, w, i)
 
     hv[0] += words[0]
@@ -64,7 +64,7 @@ def compression_loop(words, k, w, i):
 
     S1 = grandSigma1(e)
     ch_out = ch(e, f, g)
-    temp1 = h + S1 + ch_out + k[i] + w[i]
+    temp1 = (h + S1 + ch_out + k[i] + w[i]) % (2**32)
     S0 = grandSigma0(a)
     maj_out = maj(a, b, c)
     temp2 = S0 + maj_out
