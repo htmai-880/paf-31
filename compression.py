@@ -71,7 +71,7 @@ def process(hv, k, w):
         compression_loop(words, k, w, i)
 
     for j in range(8):
-        hv[j] = (hv[j] + words[0]) % (2**32)
+        hv[j] = (hv[j] + words[j]) % (2**32)
 
 
 def compression_loop(words, k, w, i):

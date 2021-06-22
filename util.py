@@ -6,7 +6,7 @@ def shr(x, n):
 
 
 def rotr(x, n, b):
-    return x >> n | x << (b - n)
+    return x >> n | (x << (b - n) & (2**b-1))
 
 
 def ch(x, y, z):
