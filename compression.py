@@ -1,48 +1,9 @@
 import numpy as np
+import struct
 
 
 
-#x est un mot et n est un entier, et length est le même que dans def sha256
-
-def shr(x, n):
-    return x>>n
-
-def rotr(x, n, b):
-    return x>>n | x<< (b - n)
-
-def ch(x, y, z):
-    return (x&y)^(~x&z)
-
-def maj(x, y, z):
-    return (x&y)^(x&z)^(y&z)
-
-#bits = 32 ou 64
-
-def grandSigma0(x, b):
-    if b==32:
-        return rotr(x, 2, b)^rotr(x, 13, b)^rotr(x, 22, b)
-    else:
-       return rotr(x, 28, b)^rotr(x, 34, b)^rotr(x, 39, b)
-
-def grandSigma1(x, b):
-    if b==32:
-        return rotr(x, 6, b)^rotr(x, 11, b)^rotr(x, 25, b)
-    else:
-       return rotr(x, 14, b)^rotr(x, 18, b)^rotr(x, 41, b)
-
-def petitSigma0(x, b):
-    if b==32:
-        return rotr(x, 7, b)^rotr(x, 18, b)^shr(x, 3)
-    else:
-       return rotr(x, 1, b)^rotr(x, 8, b)^shr(x, 7)
-
-def petitSigma1(x, b):
-    if b==32:
-        return rotr(x, 17, b)^rotr(x, 19, b)^shr(x, 10)
-    else:
-       return rotr(x, 19, b)^rotr(x, 61, b)^shr(x, 6)
-
-#=======================================================================================================#
+# ----------------------------------------------------------------------------------------------- #
 
 
 def bytexor(u, v):
@@ -55,8 +16,17 @@ def bytexor(u, v):
 
     return bytearray(XOR_U_V)
 
-def compression_loop(chunk, hv):
+def batoi(b):
+    '''bytearray to integer'''
+    # b is a bytearray
+    date_header, timestamp = struct.unpack('>BL', b)
+    return timestamp
 
+
+# ----------------------------------------------------------------------------------------------- #
+
+
+def compression_loop(chunk, hv, i):
     # hv is the hash value. hv[0] = hv0, ..., hv[7] = hv7.
     hv0 = hv[0]
     hv1 = hv[1]
@@ -67,19 +37,16 @@ def compression_loop(chunk, hv):
     hv6 = hv[6]
     hv7 = hv[7]
 
-    # chunk is a bytearray of 256 bits (32 bytes), cut in 8 words of 32 bits.
-    a = chunk[0:4]
-    b = chunk[4:8]
-    c = chunk[8:12]
-    d = chunk[12:16]
-    e = chunk[16:20]
-    f = chunk[20:24]
-    g = chunk[24:28]
-    h = chunk[28:32]
+    # chunk is a bytearray of 512 bits (64 bytes), cut in 8 words of 32 bits.
+    a = chunk[0:8]
+    b = chunk[8:16]
+    c = chunk[16:24]
+    d = chunk[24:32]
+    e = chunk[32:40]
+    f = chunk[40:48]
+    g = chunk[48:56]
+    h = chunk[56:64]
 
-
-
-
-
+    S1 = grandSigma1(0)
 
 
