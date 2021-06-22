@@ -48,4 +48,4 @@ def sha256(message):
             w[j] = w[j-16] + s0 + w[j-7] + s1
         process(hv, k, w)
     
-    return message
+    return hv
