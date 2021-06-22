@@ -43,9 +43,11 @@ def sha256(message):
         for j in range(16):
             w.append(chunk_list[i][j]*16**6+chunk_list[i][j]*16**4+chunk_list[i][j]*16**2+chunk_list[i][j])
         for j in range(16, 64):
+            w.append(0)
+        for j in range(16, 64):
             s0 = petitSigma0(w[j-15], 32)
             s1 = petitSigma1(w[j-2], 32)
             w[j] = w[j-16] + s0 + w[j-7] + s1
         process(hv, k, w)
     
-    return hv
+    return hv[0]
