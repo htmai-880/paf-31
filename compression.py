@@ -1,4 +1,3 @@
-import numpy as np
 import struct
 from util import *
 
@@ -34,18 +33,6 @@ W = [825307441, 808464432, 808464432, 808464432, 1077952576, 0, 0, 0, 0, 0, 0, 0
 '''
 
 # ----------------------------------------------------------------------------------------------- #
-
-
-def bytexor(u, v):
-    # u, v have the same size
-    p = len(u)
-    XOR_U_V = []
-    for i in range(p):
-        print(np.bitwise_xor(u[i], v[i]))
-        XOR_U_V.append(int(np.bitwise_xor(u[i], v[i])))
-
-    return bytearray(XOR_U_V)
-
 
 def batoi(b):
     '''bytearray to integer'''
@@ -103,6 +90,16 @@ def compression_loop(words, k, w, i):
     words[2] = b
     words[1] = a
     words[0] = (temp1 + temp2) % (2**32)
+
+    if i == 0:
+        print("h = ", bin(words[7]))
+        print("g = ", bin(words[6]))
+        print("f = ", bin(words[5]))
+        print("e = ", bin(words[4]))
+        print("d = ", bin(words[3]))
+        print("c = ", bin(words[2]))
+        print("b = ", bin(words[1]))
+        print("a = ", bin(words[0]))
 
 
 

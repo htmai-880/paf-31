@@ -45,3 +45,28 @@ def petitSigma1(x, b):
         return rotr(x, 17, b) ^ rotr(x, 19, b) ^ shr(x, 10)
     else:
         return rotr(x, 19, b) ^ rotr(x, 61, b) ^ shr(x, 6)
+
+
+def padding(bmessage):
+    # bmessage is a message in bytearray
+    length = 8 * len(bmessage)
+    bmessage.append(0b10000000)
+
+    zero_num = 7
+
+    while (zero_num + length + 64 + 1) % 512 != 0:
+        zero_num += 8
+        bmessage.append(0x0)
+
+    length_code = length.to_bytes(8, 'big')
+
+    for byte in length_code:
+        bmessage.append(byte)
+
+def repr(ba):
+    '''print bytearray'''
+    s = ''
+    for byte in ba:
+        base = str(bin(byte))[2:]
+        s += (8-len(base))*'0'+ base + ' '
+    print(s)
