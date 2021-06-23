@@ -1,3 +1,4 @@
+import struct
 
 # x est un mot et n est un entier, et length est le même que dans def sha256
 
@@ -6,7 +7,7 @@ def shr(x, n):
 
 
 def rotr(x, n, b):
-    return x >> n | (x << (b - n) & (2**b-1))
+    return x >> n | (x << (b - n) & (2 ** b - 1))
 
 
 def ch(x, y, z):
@@ -63,10 +64,18 @@ def padding(bmessage):
     for byte in length_code:
         bmessage.append(byte)
 
+
+def batoi(b):
+    '''bytearray to integer'''
+    # b is a bytearray
+    var = struct.unpack('>L', b)
+    return var[0]
+
+
 def repr(ba):
     '''print bytearray'''
     s = ''
     for byte in ba:
         base = str(bin(byte))[2:]
-        s += (8-len(base))*'0'+ base + ' '
+        s += (8 - len(base)) * '0' + base + ' '
     print(s)
