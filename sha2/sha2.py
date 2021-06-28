@@ -1,6 +1,7 @@
 from util import *
 from compression import *
 
+# ----------------------------------    Constants   ------------------------------------------
 h0 = 0x6a09e667
 h1 = 0xbb67ae85
 h2 = 0x3c6ef372
@@ -18,46 +19,39 @@ K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x9
      0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
      0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2]
 
-def sha256(message, typ = 'str'):
+
+# ----------------------------------    Hashing function    ----------------------------------
+def sha256(message, typ='str'):
+    """Performs SHA-256 hashing."""
+
+    # Initializing vectors
     hv = [h0, h1, h2, h3, h4, h5, h6, h7]
-    
+
+    # Obtain the message in bytearray
     if typ == 'str':
         bmessage = bytearray(message, 'utf-8')
     elif typ == 'int':
-        size = (len(bin(message))-3)//8+1
+        size = (len(bin(message)) - 3) // 8 + 1
         bmessage = bytearray(message.to_bytes(size, 'big'))
-        
 
-    ####Padding
-
+    # Padding
     padding(bmessage)
 
-    ####Chunks processing
-
-    chunk_list = [bmessage[64*k:64*(k+1)] for k in range(len(bmessage)//64)]
-
-    # For each chunk
+    # Chunks processing (for each chunk)
+    chunk_list = [bmessage[64 * k:64 * (k + 1)] for k in range(len(bmessage) // 64)]
     for i in range(len(chunk_list)):
-        w = []
-        for j in range(16):
-            # Copies the content of the chunk (512 bits) in the first 16 entries of w.
-            # Each entry contains 32 bits (4 bytes).
-            w.append(batoi(chunk_list[i][4*j:4*(j+1)]))
-        for j in range(16, 64):
-            s0 = petitSigma0(w[j-15], 32)
-            s1 = petitSigma1(w[j-2], 32)
-            w.append((w[j-16] + s0 + w[j-7] + s1) % (2**32))
-        process(hv, K, w)
-    
-    res = 0
+        chunk_processing(hv, K, chunk_list[i])
 
+    # Final concatenation
+    res = 0
     for j in range(8):
-        res += hv[j]*2**(32*(7-j))
+        res += hv[j] * 2 ** (32 * (7 - j))
 
     return res
+
 
 if __name__ == "__main__":
     message = input("Entrez le message (str):\n")
     print(hex(sha256(message)))
     message = input("Entrez le message (int):\n")
-    print(hex(sha256(int(message), typ = 'int')))
+    print(hex(sha256(int(message), typ='int')))

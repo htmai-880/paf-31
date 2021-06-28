@@ -84,5 +84,15 @@ def compression_loop(words, k, w, i):
     words[0] = (temp1 + temp2) % (2**32)
 
 
-
+def chunk_processing(hv, k, chunk):
+    w = []
+    for j in range(16):
+        # Copies the content of the chunk (512 bits) in the first 16 entries of w.
+        # Each entry contains 32 bits (4 bytes).
+        w.append(batoi(chunk[4 * j:4 * (j + 1)]))
+    for j in range(16, 64):
+        s0 = petitSigma0(w[j - 15], 32)
+        s1 = petitSigma1(w[j - 2], 32)
+        w.append((w[j - 16] + s0 + w[j - 7] + s1) % (2 ** 32))
+    process(hv, k, w)
 

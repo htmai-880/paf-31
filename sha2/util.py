@@ -1,7 +1,8 @@
 import struct
 
-# x est un mot et n est un entier, et length est le même que dans def sha256
+# x is a word and n is an integer, and length is the same as in def sha256
 
+# ----------------------------------    Bit functions   ----------------------------------
 def shr(x, n):
     return x >> n
 
@@ -47,8 +48,10 @@ def petitSigma1(x, b):
     else:
         return rotr(x, 19, b) ^ rotr(x, 61, b) ^ shr(x, 6)
 
+# ---------------------------------- SHA-256 functions ----------------------------------
 
 def padding(bmessage):
+    """IN-PLACE: Performs padding for a bytearray message."""
     # bmessage is a message in bytearray
     length = 8 * len(bmessage)
     bmessage.append(0b10000000)
@@ -64,16 +67,15 @@ def padding(bmessage):
     for byte in length_code:
         bmessage.append(byte)
 
-
 def batoi(b):
-    '''bytearray to integer'''
+    """Converts bytearray to integer."""
     # b is a bytearray
     var = struct.unpack('>L', b)
     return var[0]
 
 
 def repr(ba):
-    '''print bytearray'''
+    """Prints bytearray in the binary form."""
     s = ''
     for byte in ba:
         base = str(bin(byte))[2:]
