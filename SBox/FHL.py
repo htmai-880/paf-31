@@ -29,6 +29,27 @@ def FHL(X):
         h *= 2 #We multiply by 2 the size of the Hadamard matrix
         
     return X
+"""
+#We can change the Hadamard matrix and use the coefficients we want.
+
+def FHLe(X, a, b, c, d):
+    
+    h = 1
+    longX = len(X) #We calculate the size of X to know the right  size of the Hadamard matrix
+    
+    while h < longX:
+        
+        for i in range(0, longX, h * 2):
+            
+            for j in range(i, i + h):
+                
+                y = X[j]
+                z = X[j + h]
+                X[j] = a*y + c*z       #This addition is the definition of the Hadamard matrix     H2=[a  b]
+                X[j + h] = b*y + d*z   #This difference is the definition of the Hadamard matrix      [c  d]
+        h *= 2 #We multiply by 2 the size of the Hadamard matrix
+        
+    return X"""
 
 
 
@@ -51,7 +72,7 @@ This function calculate the hash vector using FHL function.
     vectSortie : vector
         hash vector
 """
-def outVect(symbPerm, nbSymb, vectDep, longDep):
+def hachage(symbPerm, nbSymb, vectDep, longDep):
     
     nouvVect = [] # We create a new vector nouvVect
     
