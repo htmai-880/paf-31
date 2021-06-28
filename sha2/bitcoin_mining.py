@@ -3,6 +3,7 @@ from sha2 import *
 import random as rd
 import string
 import numpy as np
+import time
 
 length_block = 100
 ints = string.digits
@@ -38,14 +39,23 @@ def mining_perf(dif_min, num_block):
     plt.plot(dif_targets, c_list, 'o')
     plt.show()
         
-def bitcoin_net(t, maj_num, duration_target):
-    dif_list = []
-    dif_list = []
-    estimations_list = []
-    prev_dif = 2**255
-    for k in range(t):
-        estimated_dif = 2**255
+def bitcoin_net(T, maj_num, duration_target):
+    dif_list = [255]
+    for t in range(T):
+        dt_list = []
+        for  block_num in range(maj_num):
+            block = int('1'+''.join(rd.choice(ints) for _ in range(length_block-1)))
+            real_t = time.perf_counter()
+            mine(2**dif_list[t], block = block)
+            if t >= T//2:
+                mine(2**dif_list[t], block = block)
+            dt_list.append(round((time.perf_counter()-real_t)*1000, 3))
+            
+        dif_list.append(np.log2(2**dif_list[t]*np.mean(dt_list)/(duration_target*maj_num)))
+        
+    plt.plot([t for t in range(T+1)], dif_list, '-')
+    plt.show()
 
-if __name__ == "__main__":
-    d = int(input("Input log2 of the required difficulty target [0, 255]:\n"))
-    mine(2**d)
+##if __name__ == "__main__":
+##    d = int(input("Input log2 of the required difficulty target [0, 255]:\n"))
+##    mine(2**d)
