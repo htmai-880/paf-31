@@ -26,13 +26,11 @@ def sha256(message, typ = 'str'):
     elif typ == 'int':
         size = (len(bin(message))-3)//8+1
         bmessage = bytearray(message.to_bytes(size, 'big'))
+        
 
     ####Padding
 
-    if typ == 'str':
-        padding(bmessage)
-    elif typ == 'int':
-        paddingb(bmessage)
+    padding(bmessage)
 
     ####Chunks processing
 

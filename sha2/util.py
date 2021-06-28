@@ -64,31 +64,6 @@ def padding(bmessage):
     for byte in length_code:
         bmessage.append(byte)
 
-def paddingb(bmessage):
-    
-    byte_num = len(bmessage)
-    last = bmessage[byte_num-1]
-
-    if last%2 == 1:
-        bmessage.append(128)
-        length = byte_num*8
-        zero_num = 7
-    
-    for k in range(2, 7):
-        if last%(2**k) == 0:
-            bmessage[byte_num-1] = last+(2**(k-1))
-            length = byte_num*8 - k
-            zero_num = k-1        
-
-    while (zero_num + length + 64 + 1) % 512 != 0:
-        zero_num += 8
-        bmessage.append(0x0)
-
-    length_code = length.to_bytes(8, 'big')
-
-    for byte in length_code:
-        bmessage.append(byte)
-
 
 def batoi(b):
     '''bytearray to integer'''
