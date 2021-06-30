@@ -7,21 +7,21 @@ from codecs import encode
 
 def block_hash(bitcoin_num):
     with open(str(bitcoin_num) + ".json", "r") as f:        
-        blocJson = json.loads("".join(f.readlines()))
+        blocJson_header = json.loads("".join(f.readlines()))['blocks'][0]
         
-        ver = pack('<I', blocJson['blocks'][0]['ver']).hex()
+        ver = pack('<I', blocJson_header['ver']).hex()
         
-        prev_nounce = unhexlify(blocJson['blocks'][0]['prev_block'])
+        prev_nounce = unhexlify(blocJson_header['prev_block'])
         prev_nounce = prev_nounce[::-1].hex()
         
-        mrkl_root = unhexlify(blocJson['blocks'][0]['mrkl_root'])
+        mrkl_root = unhexlify(blocJson_header['mrkl_root'])
         mrkl_root = mrkl_root[::-1].hex()
         
-        time = pack('<I', blocJson['blocks'][0]['time']).hex()
+        time = pack('<I', blocJson_header['time']).hex()
         
-        nbits = pack('<I', blocJson['blocks'][0]['bits']).hex()
+        nbits = pack('<I', blocJson_header['bits']).hex()
         
-        nonce = pack('<I', blocJson['blocks'][0]['nonce']).hex() 
+        nonce = pack('<I', blocJson_header['nonce']).hex() 
         
         header_hex = ver + prev_nounce + mrkl_root + time + nbits + nonce
         header_bin = int(header_hex,16)
