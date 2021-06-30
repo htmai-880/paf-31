@@ -1,13 +1,12 @@
 import matplotlib.pyplot as plt
 from sha2 import *
 import random as rd
-import string
 import numpy as np
 import time
 
-length_block = 100
-ints = string.digits
-def_block = int('1'+''.join(rd.choice(ints) for _ in range(length_block-1)))
+length_block = 80//4
+figures = '0123456789abcdef'
+def_block = int('0x1'+''.join(rd.choice(figures) for _ in range(length_block)), base = 16)
 
 def mine(dif_target, block = def_block):
     """Find the correct nounce for the block hash to be inferior to the difficulty target."""
