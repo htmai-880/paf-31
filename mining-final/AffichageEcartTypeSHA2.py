@@ -56,3 +56,37 @@ plt.legend()
 plt.xlabel('Facteur de difficulté')
 plt.ylabel('Nombre de nounces essayés')
 plt.show() 
+
+
+def geometric_mean(p):
+    return (1-p)/p
+
+def geometric_std(p):
+    return np.sqrt(1-p)/p
+
+def plot_geometric_mean(limit):
+    F = [2**k for k in range(limit)]
+    E = [geometric_mean(1/f) for f in F]
+    EP = [geometric_mean(1/f) + geometric_std(1/f) for f in F]
+    EM = [geometric_mean(1/f) - geometric_std(1/f) for f in F]
+
+    plt.figure("Geometric")
+    plt.title("Espérance théorique du nombre de nonce essayés en fonction\ndu facteur requis")
+    axes = plt.gca()
+    axes.xaxis.set_ticks(numbers_powers)
+    plt.grid()
+    plt.plot(F, EP, "c-.", label="Ecart-type")
+    plt.plot(F, EM, "c-.")
+
+    plt.plot(F, E, "r-+", label="Espérance théorique du nombre de nonce", linewidth=3)
+    axes.xaxis.set_ticklabels(['0'] + [' ' for k in range(1, 12)] + ['2^' + str(k) for k in range(12, N)])
+    axes.yaxis.set_ticks(nounce)
+    axes.yaxis.set_ticklabels(['0'] + [' ' for k in range(1, 12)] + [round(nounce[k]) for k in range(12, N)])
+    plt.legend()
+    plt.xlabel('Facteur requis')
+    plt.ylabel('Nombre de nounces moyen (théorique) essayés')
+    plt.show()
+
+plot_geometric_mean(15)
+
+
