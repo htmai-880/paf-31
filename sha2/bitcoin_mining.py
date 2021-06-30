@@ -4,11 +4,14 @@ import random as rd
 import numpy as np
 import time
 
-length_block = 80//4
-figures = '0123456789abcdef'
-def_block = int('0x1'+''.join(rd.choice(figures) for _ in range(length_block)), base = 16)
+def random_header():
+    length_block = 76*8
+    figures = '01'
+    return int('0b1'+''.join(rd.choice(figures) for _ in range(length_block-1)), base = 0)
 
-def mine(dif_target, block = def_block):
+def_block_header = random_header()
+
+def mine(dif_target, block = def_block_header):
     """Find the correct nounce for the block hash to be inferior to the difficulty target."""
     nounce = 0
     while(nounce < 2**256):
@@ -31,7 +34,7 @@ def mining_perf(dif_min, num_block):
         # Get the average count of nounces browsed to get the correct hash.
         for k in range(num_block):
             nounce_list = []
-            block = int('1'+''.join(rd.choice(ints) for _ in range(length_block-1)))
+            block = random_header()
             nounce_list.append(mine(2**dif_target, block))
         c_list.append(np.mean(nounce_list))
         
@@ -43,7 +46,7 @@ def bitcoin_net(T, maj_num, duration_target):
     for t in range(T):
         dt_list = []
         for  block_num in range(maj_num):
-            block = int('1'+''.join(rd.choice(ints) for _ in range(length_block-1)))
+            block = random_header()
             real_t = time.perf_counter()
             mine(2**dif_list[t], block = block)
             if t >= T//2:
