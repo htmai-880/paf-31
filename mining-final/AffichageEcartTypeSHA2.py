@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 
-N=16
+N=3
 
 with open("Temps.json", "r") as f:        
     temps = json.loads("".join(f.readlines()))
@@ -28,7 +28,7 @@ plt.plot(numbers_powers, tempsPlus, "c-.", label = "Ecart-type")
 plt.plot(numbers_powers, tempsMoins, "c-.")
 plt.plot(numbers_powers, temps, "r-+", label="Temps moyen", linewidth=3)
 axes.xaxis.set_ticklabels(['0']+[' ' for k in range(1, 12)]+['2^'+str(k) for k in range(12,N)])
-axes.yaxis.set_ticks(temps)
+axes.yaxis.set_ticks(temps[12:N])
 axes.yaxis.set_ticklabels(['0']+[' ' for k in range(1, 12)]+[round(temps[k]) for k in range(12,N)])
 
 plt.legend()
@@ -40,7 +40,7 @@ plt.ylabel('Temps d exécution en s')
 nouncePlus = [x + y for x, y in zip(nounce, ecartTypeNounce)]
 nounceMoins = [max(x - y, 0) for x, y in zip(nounce, ecartTypeNounce)]
 
-plt.figure("Nounce")
+plt.figure("Nonce")
 plt.title("Nombre de nounces essayés en fonction du facteur de difficulté\n pour un bloc de taille 1000")
 axes = plt.gca()
 axes.xaxis.set_ticks(numbers_powers)
@@ -50,7 +50,7 @@ plt.plot(numbers_powers, nounceMoins, "c-.")
 
 plt.plot(numbers_powers, nounce, "r-+", label="Nombre de nounce moyen", linewidth=3)
 axes.xaxis.set_ticklabels(['0']+[' ' for k in range(1, 12)]+['2^'+str(k) for k in range(12,N)])
-axes.yaxis.set_ticks(nounce)
+axes.yaxis.set_ticks(nounce[12:N])
 axes.yaxis.set_ticklabels(['0']+[' ' for k in range(1, 12)]+[round(nounce[k]) for k in range(12,N)])
 plt.legend()
 plt.xlabel('Facteur de difficulté')
@@ -80,13 +80,13 @@ def plot_geometric_mean(limit):
 
     plt.plot(F, E, "r-+", label="Espérance théorique du nombre de nonce", linewidth=3)
     axes.xaxis.set_ticklabels(['0'] + [' ' for k in range(1, 12)] + ['2^' + str(k) for k in range(12, N)])
-    axes.yaxis.set_ticks(nounce)
-    axes.yaxis.set_ticklabels(['0'] + [' ' for k in range(1, 12)] + [round(nounce[k]) for k in range(12, N)])
+    axes.yaxis.set_ticks(E)
+    axes.yaxis.set_ticklabels(['0'] + [' ' for k in range(1, 12)] + [round(E[k]) for k in range(12, N)])
     plt.legend()
     plt.xlabel('Facteur requis')
     plt.ylabel('Nombre de nounces moyen (théorique) essayés')
     plt.show()
 
-plot_geometric_mean(15)
+plot_geometric_mean(N)
 
 

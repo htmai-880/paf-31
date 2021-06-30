@@ -5,8 +5,6 @@ import string
 import time
 import numpy as np
 import json
-
-
 from multiprocessing import Pool
 
 """
@@ -14,13 +12,19 @@ length_block = 100
 ints = string.digits
 block = int('1'+''.join(rd.choice(ints) for _ in range(length_block)))
 """
+def random_header():
+    length_block = 76*8
+    figures = '01'
+    return int('0b1'+''.join(rd.choice(figures) for _ in range(length_block-1)), base = 0)
+
 
 
 def mine(dif_target):
     t=time.perf_counter()
-    length_block = 1000
-    ints = string.digits
-    block = int('1'+''.join(rd.choice(ints) for _ in range(length_block)))
+    #length_block = 1000
+    #ints = string.digits
+    block = random_header()
+    #block = int('1'+''.join(rd.choice(ints) for _ in range(length_block)))
     nounce = 0
     while(nounce < 2**256):
         if pickaxe(nounce, block) <= dif_target:
