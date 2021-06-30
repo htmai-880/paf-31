@@ -52,6 +52,6 @@ def sha256(message, typ='str'):
 
 if __name__ == "__main__":
     message = input("Entrez le message (str):\n")
-    print(hex(sha256(message)))
+    print(hex(sha256(message, typ = 'str')))
     message = input("Entrez le message (int):\n")
     print(hex(sha256(int(message), typ='int')))
