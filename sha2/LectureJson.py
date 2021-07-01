@@ -5,8 +5,8 @@ import hashlib
 from struct import pack, unpack, unpack_from
 from codecs import encode
 
-def block_hash(bitcoin_num):
-    with open(str(bitcoin_num) + ".json", "r") as f:        
+def block_hash(block_num):
+    with open(str(block_num) + ".json", "r") as f:        
         blocJson_header = json.loads("".join(f.readlines()))['blocks'][0]
         
         ver = pack('<I', blocJson_header['ver']).hex()
@@ -30,4 +30,4 @@ def block_hash(bitcoin_num):
         return unhexlify(hex(diggest)[2:])[::-1].hex()
 
 if __name__ == "__main__":
-    print(block_hash(125552))
+    print(block_hash(0))
