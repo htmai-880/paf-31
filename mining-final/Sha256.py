@@ -1,6 +1,6 @@
 from Util import petitSigma0, petitSigma1, padding, batoi
 from Compression import process
-
+import matplotlib.pyplot as plt
 
 
 
@@ -60,7 +60,7 @@ def sha256(message, typ='int'):
     #temps = round((time.perf_counter()-t)*1000, 3)
     #print(temps)
     #print(temps, "ms")
-    return res #, temps
+    return res, temps
 """
 if __name__=="__main__":
     mot = 'Je tente de faire du minage'
@@ -78,22 +78,26 @@ if __name__=="__main__":
     print(hex(X))
     print("\n0b "+ " ".join(f"{ord(car):08b}" for car in mot[27:32]))
 """
-"""
-mot = 'a'
+
+mot = ''
 M = 20
-N = 20
+N = 100
 temps = [0]*N
 moy = [0]*M
-for i in range(1, N):
+for i in range(0, N, 10):
     print(i)    
     
     for j in range(M):
-        X, moy[j] = sha256(mot)
+        X, moy[j] = sha256(mot, typ='str')
     temps[i] = min(moy)
-    mot+=mot
+    mot+='aaaaaaaaaa'
 
-
+soix4 = [55+k*64 for k in range(3)]
 plt.plot(temps)
+plt.title("Temps d'exécution en fonction du nombre de caractères")
+axes = plt.gca()
+axes.xaxis.set_ticks(soix4)
+plt.grid()
 plt.xlabel('Nombre de caractères')
 plt.ylabel('Temps d exécution en ms')
-plt.show()"""
+plt.show()
